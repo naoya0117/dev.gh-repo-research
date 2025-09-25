@@ -23,9 +23,10 @@ services:
     volumes:
       - ./api:/app
     environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
       - DB_HOST=postgres
       - DB_NAME=gh-repo-research
-      - DB_PORT=${DB_PORT:-5432}
+      - DB_PORT=5432
       - DB_USER=${DB_USER:-user}
       - DB_PASSWORD=${DB_PASSWORD:-password}
     depends_on:
@@ -33,6 +34,8 @@ services:
         condition: service_healthy
   postgres:
     image: postgres:17.6
+    ports:
+      - 5432:5432
     environment:
       POSTGRES_DB: gh-repo-research
       POSTGRES_USER: ${DB_USER:-user}
@@ -40,7 +43,7 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-user} -d gh-repo-research"]
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER:-user} -d gh-repo-research" ]
       interval: 5s
       timeout: 5s
       retries: 5

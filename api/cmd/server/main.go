@@ -2,6 +2,7 @@ package main
 
 import (
 	"gh-repo-research-api/graph"
+	"gh-repo-research-api/internal/database"
 	"log"
 	"net/http"
 	"os"
@@ -22,7 +23,19 @@ func main() {
 		port = defaultPort
 	}
 
-	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	// Initialize database connection
+	db, err := database.NewConnection()
+	if err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
+	}
+	defer db.Close()
+
+	// Create tables
+	if err := db.CreateRepositoriesTable(); err != nil {
+		log.Fatalf("Failed to create tables: %v", err)
+	}
+
+	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{DB: db}}))
 
 	srv.AddTransport(transport.Options{})
 	srv.AddTransport(transport.GET{})
