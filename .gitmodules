@@ -1,0 +1,6 @@
+[submodule "api"]
+	path = api
+	url = git@github.com:naoya0117/api.gh-repo-search.git
+[submodule "www"]
+	path = www
+	url = git@github.com:naoya0117/www.gh-repo-research.git
