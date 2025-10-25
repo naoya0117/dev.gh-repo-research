@@ -11,6 +11,8 @@ services:
       - 3000:3000
     volumes:
       - ./www:/app
+    environment:
+      - API_BASE_URL=http://api:8080
   api:
     build:
       context: ./api
