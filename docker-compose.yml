@@ -13,6 +13,7 @@ services:
       - ./www:/app
     environment:
       - API_BASE_URL=http://api:8080
+      - API_SECRET_KEY=${API_SECRET_KEY}
   api:
     build:
       context: ./api
@@ -25,6 +26,7 @@ services:
     volumes:
       - ./api:/app
     environment:
+      - API_SECRET_KEY=${API_SECRET_KEY}
       - GITHUB_TOKEN=${GITHUB_TOKEN}
       - DB_HOST=postgres
       - DB_NAME=gh-repo-research
