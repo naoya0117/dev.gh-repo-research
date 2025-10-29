@@ -14,6 +14,8 @@ services:
     environment:
       - API_BASE_URL=http://api:8080
       - API_SECRET_KEY=${API_SECRET_KEY}
+      - BASIC_AUTH_USER=${BASIC_AUTH_USER}
+      - BASIC_AUTH_PASSWORD=${BASIC_AUTH_PASSWORD}
   api:
     build:
       context: ./api
@@ -33,6 +35,8 @@ services:
       - DB_PORT=5432
       - DB_USER=${DB_USER:-user}
       - DB_PASSWORD=${DB_PASSWORD:-password}
+      - BASIC_AUTH_USER=${BASIC_AUTH_USER}
+      - BASIC_AUTH_PASSWORD=${BASIC_AUTH_PASSWORD}
     depends_on:
       postgres:
         condition: service_healthy
